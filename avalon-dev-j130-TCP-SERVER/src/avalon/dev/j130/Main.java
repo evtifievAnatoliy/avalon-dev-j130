@@ -5,6 +5,7 @@
  */
 package avalon.dev.j130;
 
+import avalon.dev.j130.ui.MainForm;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,7 +24,12 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
+        
+        MainForm mainForm = new MainForm();
+        mainForm.setVisible(true);
+        
+        
         try (ServerSocket srvSock = new ServerSocket(7_020)){
             while (true){
                 Socket cliSock = srvSock.accept();
