@@ -11,12 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
 
-/**
- *
- * @author eag
- */
 public class SrvThread extends Thread{
     
     MainForm mainForm;
@@ -29,7 +24,6 @@ public class SrvThread extends Thread{
         this.mainForm = mainForm;
         run();
     }
-    
     
     
     @Override

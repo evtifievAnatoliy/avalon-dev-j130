@@ -10,10 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Date;
 
-/**
- *
- * @author eag
- */
+
 public class ClientThread extends Thread{
     private Socket clientSock;
     private String clientHostPost;
@@ -48,8 +45,5 @@ public class ClientThread extends Thread{
             
         }
 
-    
-    
-        
-    
+   
 }
