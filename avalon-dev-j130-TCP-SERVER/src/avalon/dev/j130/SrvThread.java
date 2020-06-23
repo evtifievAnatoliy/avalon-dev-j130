@@ -32,8 +32,8 @@ public class SrvThread extends Thread{
             mainForm.setLogs("Сервер LocalHost:" + srvSock.getLocalPort() + " запущен.");
             
             while (true){
-                Socket cliSock = srvSock.accept();
-                ClientThread clientThread = new ClientThread(cliSock, mainForm);
+                Socket cliSocket = srvSock.accept();
+                ClientThread clientThread = new ClientThread(cliSocket, mainForm, clientThreads);
                 clientThread.start();
                 clientThreads.add(clientThread);
             }

@@ -55,6 +55,7 @@ public class MainForm extends JFrame{
         setVisible(true);
         
         
+        
     }
     
     public void setLogs(String string) {
