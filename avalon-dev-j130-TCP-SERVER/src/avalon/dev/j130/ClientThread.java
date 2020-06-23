@@ -41,7 +41,7 @@ public class ClientThread extends Thread{
         } catch (Exception ex) {
                 
         }
-            mainForm.setLogs(clientHostPost + "disconnected.");
+            mainForm.setLogs(clientHostPost + " disconnected.");
             
         }
 

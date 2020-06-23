@@ -27,8 +27,7 @@ public class Main {
         
         MainForm mainForm = new MainForm();
         SrvThread srvThread = new SrvThread(mainForm);
-        //mainForm.setVisible(true);
-        
+                
     }
     
 }
