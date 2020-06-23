@@ -27,6 +27,7 @@ public class Main {
         
         MainForm mainForm = new MainForm();
         SrvThread srvThread = new SrvThread(mainForm);
+        srvThread.start();
                 
     }
     

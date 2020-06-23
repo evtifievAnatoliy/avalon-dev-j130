@@ -8,7 +8,9 @@ package avalon.dev.j130;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.Date;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 
 public class ClientThread extends Thread{
@@ -33,10 +35,11 @@ public class ClientThread extends Thread{
                 ObjectInputStream ois = new ObjectInputStream(clientSock.getInputStream())){
             while(true){
                 String line = (String) ois.readObject();
-                Date d = new Date();
-                mainForm.setLogs(clientHostPost + ", " +  line + ", " + d);
+                LocalDateTime d = LocalDateTime.now();
+                String time = "( " + d.getHour() + ":" + d.getMinute() + ":" + d.getSecond() + " )";
+                mainForm.setLogs(clientHostPost + ", " +  line + ", " + time);
                    
-                oos.writeObject(new Object[]{line, d});
+                oos.writeObject(new Object[]{line, time});
             }
         } catch (Exception ex) {
                 

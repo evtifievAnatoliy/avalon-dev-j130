@@ -22,7 +22,6 @@ public class SrvThread extends Thread{
 
     public SrvThread(MainForm mainForm) {
         this.mainForm = mainForm;
-        run();
     }
     
     
