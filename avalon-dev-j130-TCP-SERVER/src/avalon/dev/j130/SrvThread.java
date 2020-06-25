@@ -32,14 +32,15 @@ public class SrvThread extends Thread{
             mainForm.setLogs("Сервер LocalHost:" + srvSock.getLocalPort() + " запущен.");
             
             while (true){
+                sleep(100);
                 Socket cliSocket = srvSock.accept();
-                ClientThread clientThread = new ClientThread(cliSocket, mainForm, this);
+                ClientThread clientThread = new ClientThread(cliSocket, mainForm, this, clientThreads);
                 clientThread.start();
                 clientThreads.add(clientThread);
             }
-        } catch (IOException ex) {
-            mainForm.setLogs(ex.toString());
-        }
+        } catch (Exception ex) {
+            mainForm.setLogs("Error: " + ex.toString());
+        } 
     
     }
 
@@ -54,10 +55,13 @@ public class SrvThread extends Thread{
     public void sendMessageToAll(String line, String time) throws IOException{
         
         for (ClientThread clientThread : clientThreads){
-                    //try (ObjectOutputStream oos1 = new ObjectOutputStream(clientThread.getClientSocket().getOutputStream())){
+                    try{
                         clientThread.getOos().writeObject(new Object[]{line, time});
-                    
-                    //}
+                    }
+                    catch (Exception ex){
+                        clientThreads.remove(clientThread);
+                        mainForm.setLogs(ex.toString());
+                    }
                 }
     }
 

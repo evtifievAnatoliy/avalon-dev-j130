@@ -19,14 +19,16 @@ public class ClientThread extends Thread{
     ObjectOutputStream oos;
     private String clientHostPost;
     private MainForm mainForm;
+    ArrayList<ClientThread> clientThreads;
     SrvThread srvThread;
     
         
-    public ClientThread(Socket clientSocket, MainForm mainForm, SrvThread srvThread){
+    public ClientThread(Socket clientSocket, MainForm mainForm, SrvThread srvThread, ArrayList<ClientThread> clientThreads){
         super();
         this.clientSocket = clientSocket;
         this.mainForm = mainForm;
         this.srvThread = srvThread;
+        this.clientThreads = clientThreads;
     }
 
     @Override
@@ -38,20 +40,20 @@ public class ClientThread extends Thread{
         try(ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream())){
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             while(true){
+                
+                
                 String line = (String) ois.readObject();
                 LocalDateTime d = LocalDateTime.now();
                 String time = "( " + d.getHour() + ":" + d.getMinute() + ":" + d.getSecond() + " )";
                 mainForm.setLogs(clientHostPost + ", " +  line + ", " + time);
-                
                 srvThread.sendMessageToAll(line, time);
                                 
             }
         } catch (Exception ex) {
-            mainForm.setLogs("Error!!!" + ex);    
-        }
             mainForm.setLogs(clientHostPost + " disconnected.");
-            
+            clientThreads.remove(this);
         }
+    }
 
     public Socket getClientSocket() {
         return clientSocket;
