@@ -49,7 +49,7 @@ public class SrvThread extends Thread{
         return log;
     }
     
-    public void sendMessageToAll(String line, String time) throws IOException{
+    public synchronized void sendMessageToAll(String line, String time) throws IOException{
         
         for (ClientThread clientThread : clientThreads){
             try{
