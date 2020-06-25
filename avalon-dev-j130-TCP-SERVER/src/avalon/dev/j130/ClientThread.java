@@ -19,15 +19,14 @@ public class ClientThread extends Thread{
     ObjectOutputStream oos;
     private String clientHostPost;
     private MainForm mainForm;
-    ArrayList<ClientThread> clientThreads;
+    SrvThread srvThread;
     
         
-    public ClientThread(Socket clientSocket, MainForm mainForm, ArrayList<ClientThread> clientThreads){
+    public ClientThread(Socket clientSocket, MainForm mainForm, SrvThread srvThread){
         super();
         this.clientSocket = clientSocket;
         this.mainForm = mainForm;
-        this.clientThreads = clientThreads;
-        
+        this.srvThread = srvThread;
     }
 
     @Override
@@ -44,13 +43,8 @@ public class ClientThread extends Thread{
                 String time = "( " + d.getHour() + ":" + d.getMinute() + ":" + d.getSecond() + " )";
                 mainForm.setLogs(clientHostPost + ", " +  line + ", " + time);
                 
-                for (ClientThread clientThread : clientThreads){
-                    //try (ObjectOutputStream oos1 = new ObjectOutputStream(clientThread.getClientSocket().getOutputStream())){
-                        clientThread.getOos().writeObject(new Object[]{line, time});
-                    
-                    //}
-                }
-                
+                srvThread.sendMessageToAll(line, time);
+                                
             }
         } catch (Exception ex) {
             mainForm.setLogs("Error!!!" + ex);    

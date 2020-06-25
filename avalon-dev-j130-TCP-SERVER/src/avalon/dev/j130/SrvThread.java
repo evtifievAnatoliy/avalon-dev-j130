@@ -33,12 +33,12 @@ public class SrvThread extends Thread{
             
             while (true){
                 Socket cliSocket = srvSock.accept();
-                ClientThread clientThread = new ClientThread(cliSocket, mainForm, clientThreads);
+                ClientThread clientThread = new ClientThread(cliSocket, mainForm, this);
                 clientThread.start();
                 clientThreads.add(clientThread);
             }
         } catch (IOException ex) {
-            Logger.getLogger(SrvThread.class.getName()).log(Level.SEVERE, null, ex);
+            mainForm.setLogs(ex.toString());
         }
     
     }
@@ -49,6 +49,16 @@ public class SrvThread extends Thread{
 
     public String getLog() {
         return log;
+    }
+    
+    public void sendMessageToAll(String line, String time) throws IOException{
+        
+        for (ClientThread clientThread : clientThreads){
+                    //try (ObjectOutputStream oos1 = new ObjectOutputStream(clientThread.getClientSocket().getOutputStream())){
+                        clientThread.getOos().writeObject(new Object[]{line, time});
+                    
+                    //}
+                }
     }
 
     
