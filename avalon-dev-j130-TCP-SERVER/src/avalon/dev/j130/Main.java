@@ -6,23 +6,10 @@
 package avalon.dev.j130;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author eag
- */
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws IOException{
         
         MainForm mainForm = new MainForm();

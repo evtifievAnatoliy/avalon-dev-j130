@@ -9,15 +9,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class SrvThread extends Thread{
     
     MainForm mainForm;
-    
     ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
-    
     String log;
 
     public SrvThread(MainForm mainForm) {
@@ -55,14 +52,14 @@ public class SrvThread extends Thread{
     public void sendMessageToAll(String line, String time) throws IOException{
         
         for (ClientThread clientThread : clientThreads){
-                    try{
-                        clientThread.getOos().writeObject(new Object[]{line, time});
-                    }
-                    catch (Exception ex){
-                        clientThreads.remove(clientThread);
-                        mainForm.setLogs(ex.toString());
-                    }
-                }
+            try{
+                clientThread.getOos().writeObject(new Object[]{line, time});
+            }
+            catch (Exception ex){
+                clientThreads.remove(clientThread);
+                mainForm.setLogs(ex.toString());
+            }
+        }
     }
 
     

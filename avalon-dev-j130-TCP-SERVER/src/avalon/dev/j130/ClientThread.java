@@ -10,8 +10,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import javafx.util.converter.LocalDateTimeStringConverter;
 
 
 public class ClientThread extends Thread{
@@ -40,8 +38,7 @@ public class ClientThread extends Thread{
         try(ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream())){
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             while(true){
-                
-                
+ 
                 String line = (String) ois.readObject();
                 LocalDateTime d = LocalDateTime.now();
                 String time = "( " + d.getHour() + ":" + d.getMinute() + ":" + d.getSecond() + " )";
@@ -62,7 +59,5 @@ public class ClientThread extends Thread{
     public ObjectOutputStream getOos() {
         return oos;
     }
-
-    
    
 }
