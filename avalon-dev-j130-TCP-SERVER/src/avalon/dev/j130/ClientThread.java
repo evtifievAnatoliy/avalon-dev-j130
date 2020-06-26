@@ -14,19 +14,17 @@ import java.util.ArrayList;
 
 public class ClientThread extends Thread{
     private Socket clientSocket;
-    ObjectOutputStream oos;
+    private ObjectOutputStream oos;
     private String clientHostPost;
     private MainForm mainForm;
-    ArrayList<ClientThread> clientThreads;
-    SrvThread srvThread;
+    private SrvThread srvThread;
     
         
-    public ClientThread(Socket clientSocket, MainForm mainForm, SrvThread srvThread, ArrayList<ClientThread> clientThreads){
+    public ClientThread(Socket clientSocket, MainForm mainForm, SrvThread srvThread){
         super();
         this.clientSocket = clientSocket;
         this.mainForm = mainForm;
         this.srvThread = srvThread;
-        this.clientThreads = clientThreads;
     }
 
     @Override
@@ -48,7 +46,7 @@ public class ClientThread extends Thread{
             }
         } catch (Exception ex) {
             mainForm.setLogs(clientHostPost + " disconnected.");
-            clientThreads.remove(this);
+            srvThread.getClientThreads().remove(this);
         }
     }
 
