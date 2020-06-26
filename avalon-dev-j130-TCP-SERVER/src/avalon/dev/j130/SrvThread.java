@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class SrvThread extends Thread{
     
-    MainForm mainForm;
-    ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
-    String log;
+    private MainForm mainForm;
+    private ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
+    private String log;
 
     public SrvThread(MainForm mainForm) {
         this.mainForm = mainForm;
@@ -31,9 +31,9 @@ public class SrvThread extends Thread{
             while (true){
                 sleep(100);
                 Socket cliSocket = srvSock.accept();
-                ClientThread clientThread = new ClientThread(cliSocket, mainForm, this, clientThreads);
+                ClientThread clientThread = new ClientThread(cliSocket, mainForm, this);
                 clientThread.start();
-                clientThreads.add(clientThread);
+                getClientThreads().add(clientThread);
             }
         } catch (Exception ex) {
             mainForm.setLogs("Error: " + ex.toString());
@@ -41,13 +41,15 @@ public class SrvThread extends Thread{
     
     }
 
-    public ArrayList<ClientThread> getClientThreads() {
+    public synchronized ArrayList<ClientThread> getClientThreads() {
         return clientThreads;
     }
 
     public String getLog() {
         return log;
     }
+    
+    
     
     public synchronized void sendMessageToAll(String line, String time) throws IOException{
         
@@ -56,7 +58,7 @@ public class SrvThread extends Thread{
                 clientThread.getOos().writeObject(new Object[]{line, time});
             }
             catch (Exception ex){
-                clientThreads.remove(clientThread);
+                getClientThreads().remove(clientThread);
                 mainForm.setLogs(ex.toString());
             }
         }
