@@ -16,7 +16,7 @@ public class SrvThread extends Thread{
     private MainForm mainForm;
     private ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
     private String log;
-    private Object monitor = new Object();
+   
 
     public SrvThread(MainForm mainForm) {
         this.mainForm = mainForm;
@@ -49,15 +49,15 @@ public class SrvThread extends Thread{
     }
     
     public synchronized void delFromClientThreads(ClientThread clientThread){
-        synchronized (monitor){
+        
             clientThreads.remove(clientThread);
-        }
+        
     }
     
-    public synchronized void addToClientThreads(ClientThread clientThread){
-        synchronized (monitor){
+    private synchronized void addToClientThreads(ClientThread clientThread){
+        
             clientThreads.add(clientThread);
-        }
+        
     }
     
     
