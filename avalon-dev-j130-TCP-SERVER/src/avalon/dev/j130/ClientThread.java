@@ -46,7 +46,7 @@ public class ClientThread extends Thread{
             }
         } catch (Exception ex) {
             mainForm.setLogs(clientHostPost + " disconnected.");
-            srvThread.getClientThreads().remove(this);
+            srvThread.delFromClientThreads(this);
         }
     }
 

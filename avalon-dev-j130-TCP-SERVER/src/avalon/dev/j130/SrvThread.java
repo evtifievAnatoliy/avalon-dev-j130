@@ -16,6 +16,7 @@ public class SrvThread extends Thread{
     private MainForm mainForm;
     private ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
     private String log;
+    private Object monitor = new Object();
 
     public SrvThread(MainForm mainForm) {
         this.mainForm = mainForm;
@@ -33,7 +34,7 @@ public class SrvThread extends Thread{
                 Socket cliSocket = srvSock.accept();
                 ClientThread clientThread = new ClientThread(cliSocket, mainForm, this);
                 clientThread.start();
-                getClientThreads().add(clientThread);
+                addToClientThreads(clientThread);
             }
         } catch (Exception ex) {
             mainForm.setLogs("Error: " + ex.toString());
@@ -49,6 +50,19 @@ public class SrvThread extends Thread{
         return log;
     }
     
+    public void delFromClientThreads(ClientThread clientThread){
+        synchronized (monitor){
+            getClientThreads().remove(clientThread);
+        }
+    }
+    
+    public void addToClientThreads(ClientThread clientThread){
+        synchronized (monitor){
+            getClientThreads().add(clientThread);
+        }
+    }
+    
+    
     
     
     public synchronized void sendMessageToAll(String line, String time) throws IOException{
@@ -58,7 +72,7 @@ public class SrvThread extends Thread{
                 clientThread.getOos().writeObject(new Object[]{line, time});
             }
             catch (Exception ex){
-                getClientThreads().remove(clientThread);
+                delFromClientThreads(clientThread);
                 mainForm.setLogs(ex.toString());
             }
         }
