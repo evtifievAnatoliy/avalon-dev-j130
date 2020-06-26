@@ -42,23 +42,21 @@ public class SrvThread extends Thread{
     
     }
 
-    public synchronized ArrayList<ClientThread> getClientThreads() {
-        return clientThreads;
-    }
+    
 
     public String getLog() {
         return log;
     }
     
-    public void delFromClientThreads(ClientThread clientThread){
+    public synchronized void delFromClientThreads(ClientThread clientThread){
         synchronized (monitor){
-            getClientThreads().remove(clientThread);
+            clientThreads.remove(clientThread);
         }
     }
     
-    public void addToClientThreads(ClientThread clientThread){
+    public synchronized void addToClientThreads(ClientThread clientThread){
         synchronized (monitor){
-            getClientThreads().add(clientThread);
+            clientThreads.add(clientThread);
         }
     }
     
